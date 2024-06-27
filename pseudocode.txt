@@ -1,0 +1,64 @@
+Procedure MainGameLoop
+    Initialize game
+    While game is running
+        If state is "intro"
+            Call StartMenu
+        Else If state is "human" or state is "computer"
+            Call MainGame
+        EndIf
+    EndWhile
+EndProcedure
+
+Procedure MainGame
+    Initialize fighters: fighter1, fighter2
+    Set round_over to False
+    While state is "human" or state is "computer" and not round_over
+        Update game background
+        Display fighters' health
+        If countdown_active is False
+            Call MoveFighters(fighter1, fighter2)
+            Call UpdateFighters(fighter1, fighter2)
+            Call DrawFighters(fighter1, fighter2)
+            Check and handle round results
+        Else
+            Call HandleCountdown
+        EndIf
+        Refresh display
+        Handle system events
+    EndWhile
+EndProcedure
+
+Procedure MoveFighters(fighter1, fighter2)
+    fighter1.Move based on user input or AI
+    fighter2.Move based on user input or AI
+EndProcedure
+
+Procedure UpdateFighters(fighter1, fighter2)
+    fighter1.Update state and animations
+    fighter2.Update state and animations
+EndProcedure
+
+Procedure DrawFighters(fighter1, fighter2)
+    fighter1.Draw on screen
+    fighter2.Draw on screen
+EndProcedure
+
+Procedure HandleCountdown
+    Decrement introCount every second
+    If introCount is 0
+        Set countdown_active to False
+    EndIf
+EndProcedure
+
+Procedure Check and handle round results
+    If fighter1.health <= 0 or fighter2.health <= 0
+        Play death sound
+        Increment winner's score
+        Display victory image
+        Wait for a few seconds
+        Reset fighters and round settings
+        If game over
+            Change state to "end"
+        EndIf
+    EndIf
+EndProcedure
